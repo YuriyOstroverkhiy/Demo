@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Unomy - Login tests" verbose="4">
+
+    <test name="T1123038 Register new user with valid data">
+        <classes>
+            <class name="com.unomy.tests.RegisterTest"/>
+        </classes>
+    </test>
+
+    <test name="T1123039 Login as existing account with valid data">
+        <classes>
+            <class name="com.unomy.tests.LoginTests"/>
+        </classes>
+    </test>
+
+
+</suite>

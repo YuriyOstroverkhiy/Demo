@@ -1,0 +1,6 @@
+# Unnecessary project files
+.idea
+*.iml
+target
+build
+report

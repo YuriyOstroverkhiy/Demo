@@ -25,7 +25,6 @@
         <reportNGcss>${project.basedir}${file.separator}config${file.separator}reportStyle.css</reportNGcss>
         <upload.dir>${project.basedir}${file.separator}upload${file.separator}</upload.dir>
         <suite.dir>${config.dir}${file.separator}testNG${file.separator}</suite.dir>
-        <allure.issues.tracker.pattern>https://qatestlab.testrail.com/index.php?/tests/view/%s</allure.issues.tracker.pattern>
         <base.url>https://beta.unomy.com/</base.url>
 
         <browser>firefox</browser>
@@ -131,8 +130,6 @@
                         <basedir>${project.basedir}</basedir>
                         <browser>${browser}</browser>
                         <base.url>${base.url}</base.url>
-                        <allure.issues.tracker.pattern>${allure.issues.tracker.pattern}</allure.issues.tracker.pattern>
-                        <allure.tests.management.pattern>${allure.issues.tracker.pattern}</allure.tests.management.pattern>
                     </systemPropertyVariables>
                     <properties>
                         <property>

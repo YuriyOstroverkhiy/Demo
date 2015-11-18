@@ -30,7 +30,7 @@ To zip report:
 ```
 mvn assembly:single 
 ```
-And send it to email:
+Send zip report to email:
 ```
 mvn postman:send-mail
 ```

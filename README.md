@@ -39,7 +39,7 @@ Or u can run them alltogether:
 mvn clean install site assembly:single postman:send-mail
 ```
 
-Troubleshooting:
+## Troubleshooting: ##
 
 Error: 
 ```

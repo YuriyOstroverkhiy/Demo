@@ -26,7 +26,7 @@ To generate allure report:
 ```
 mvn site
 ```
-To zip report and send it to email:
+To zip report:
 ```
 mvn assembly:single 
 ```

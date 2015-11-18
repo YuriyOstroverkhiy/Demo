@@ -15,50 +15,26 @@ To run the tests you need to download and install Maven 3.1.1 or higher https://
 ## Examples ##
 
 To run tests:
-
-#!
- mvn site
 ```
-
-
+ mvn install
+```
 To clean generated content: 
 ```
-#!
-
 mvn clean
 ```
-
 To generate allure report: 
 ```
-#!
-
 mvn site
 ```
-
-Or u can run them alltogether: 
-```
-#!
-
-mvn clean install site
-```
-
 To zip report and send it to email:
 ```
-#!
-
 mvn assembly:single 
 ```
-
 And send it to email:
 ```
-#!
-
 mvn postman:send-mail
 ```
-
-
-
-
-
-
-
+Or u can run them alltogether: 
+```
+mvn clean install site assembly:single postman:send-mail
+```

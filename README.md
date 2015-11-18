@@ -38,3 +38,12 @@ Or u can run them alltogether:
 ```
 mvn clean install site assembly:single postman:send-mail
 ```
+
+Troubleshooting:
+
+Error: 
+```
+-Dmaven.multiModuleProjectDirectory system propery is not set. Check $M2_HOME environment variable and mvn script match.
+```
+
+[Solution](http://stackoverflow.com/questions/29983683/dmaven-multimoduleprojectdirectory-not-set-issue-with-maven-and-intellij)

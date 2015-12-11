@@ -20,6 +20,7 @@ public abstract class BasePage extends DriverContainer {
     public static int ELEMENT_LONG_TIMEOUT_SECONDS = 60;
     public static int ELEMENT_EXTRALONG_TIMEOUT_SECONDS = 120;
     public static int ELEMENT_MEGA_EXTRALONG_TIMEOUT_SECONDS = 300;
+    public static int FOUR_MINUTES = 240;
 
     public static String BASE_URL = Properties.getBaseUrl();
 

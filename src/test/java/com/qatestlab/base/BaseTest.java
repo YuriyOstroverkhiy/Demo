@@ -13,13 +13,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.safari.SafariDriver;
+import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public abstract class BaseTest {
@@ -30,37 +35,67 @@ public abstract class BaseTest {
         return driver;
     }
 
-    @BeforeClass
-    public void setUp() {
-        Platform platform;
-        if  (SystemUtils.IS_OS_WINDOWS) {
-            platform = Platform.WINDOWS;
-        } else if (SystemUtils.IS_OS_LINUX){
-            platform = Platform.LINUX;
-        } else if (SystemUtils.IS_OS_MAC) {
-            platform = Platform.MAC;
-        } else {
-            platform = Platform.ANY;
-        }
-        switch (Properties.getBrowser()) {
-            case FIREFOX:
-                DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-                capabilities.setBrowserName("firefox");
-                capabilities.setPlatform(platform);
-                capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
-                driver = new FirefoxDriver();
-                break;
-            case CHROME:
+    protected CustomRemoteWebDriver setupRemoteDriver() {
+        String platformName = Properties.getPlatform();
+        Platform platform =  (platformName != null) ? Platform.valueOf(platformName) : Platform.ANY;
+
+        String url = Properties.getHubUrl();
+        Assert.assertNotNull(url, "Cannot setup remote webdriver with no hub URL!");
+        Assert.assertNotEquals(url, "", "Cannot setup remote webdriver with empty hub URL!");
+
+        String name = Properties.getBrowser();
+
+        DesiredCapabilities capabilities;
+        switch (name) {
+            case BrowserType.SAFARI:
+                capabilities = DesiredCapabilities.safari();
+                capabilities.setBrowserName(name);
+            case BrowserType.IE:
+                capabilities = DesiredCapabilities.internetExplorer();
+                capabilities.setBrowserName("internet explorer");
+                capabilities.setCapability("nativeEvents", false);
+            case BrowserType.CHROME:
+                capabilities = DesiredCapabilities.chrome();
+                capabilities.setBrowserName(name);
             default:
-                String chromeDriverPath = Properties.getChromeDriverPath();
-                System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+                capabilities = DesiredCapabilities.firefox();
+                capabilities.setBrowserName(name);
+        }
+        capabilities.setPlatform(platform);
+        capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
+
+        try {
+            return new CustomRemoteWebDriver(new URL(url), capabilities);
+        } catch (MalformedURLException e) {
+            skipTest("Cannot setup remote webdriver using incorrect hub URL! " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    protected WebDriver setupDriver() {
+        String name = Properties.getBrowser();
+
+        switch (name) {
+            case BrowserType.SAFARI:
+                return new SafariDriver();
+            case BrowserType.IE:
+                String ieDriver = Properties.getIEDriverPath();
+                Assert.assertNotNull(ieDriver, "Unable to determine the path to IEdriver!");
+
+
+                System.setProperty("webdriver.ie.driver", ieDriver);
+                DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+                capabilities.setCapability("nativeEvents", false);
+                return new InternetExplorerDriver(capabilities);
+            case BrowserType.CHROME:
+                String chromeDriver = Properties.getChromeDriverPath();
+                Assert.assertNotNull(chromeDriver, "Unable to determine the path to chromedriver!");
+
+                System.setProperty("webdriver.chrome.driver", chromeDriver);
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("test-type");
-                capabilities = DesiredCapabilities.chrome();
-                capabilities.setBrowserName("chrome");
-                capabilities.setPlatform(platform);
-
-                driver = new ChromeDriver(options) {
+                return new ChromeDriver(options) {
                     @Override
                     public WebElement findElement(By by) {
                         try {
@@ -81,34 +116,33 @@ public abstract class BaseTest {
                         }
                     }
                 };
-                break;
-            case IE:
-                String IEDriverPath = Properties.getIEDriverPath();
-                System.setProperty("webdriver.ie.driver", IEDriverPath);
-                capabilities = DesiredCapabilities.internetExplorer();
-                capabilities.setPlatform(platform);
-                capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
-                //capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-                capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                capabilities.setCapability(InternetExplorerDriver.REQUIRE_WINDOW_FOCUS, true);
-                capabilities.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, true);
-                capabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING,false);
-                capabilities.setJavascriptEnabled(true);
-                //capabilities.setCapability("nativeEvents", false);
-                driver = new InternetExplorerDriver(capabilities);
-                isDriverIE = true;
+            default:
+                return new FirefoxDriver();
         }
+    }
+
+
+    @BeforeClass
+    public void setUp() {
+        String hubUrl = Properties.getHubUrl();
+
+        driver = (hubUrl == null || hubUrl.isEmpty())
+                ? setupDriver()
+                : setupRemoteDriver();
+        Assert.assertNotNull(driver, "Webdriver is not set up!");
+
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(BasePage.ELEMENT_EXTRALONG_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(BasePage.ELEMENT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(BasePage.FOUR_MINUTES, TimeUnit.SECONDS);
     }
 
     @AfterClass
     public void tearDown() {
-        this.stopDriver();
+        stopDriver();
     }
 
 
-    protected void stopDriver(){
+    protected void stopDriver() {
         Actions.clear();
         Pages.clear();
         driver.quit();

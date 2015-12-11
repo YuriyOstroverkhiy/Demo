@@ -22,11 +22,11 @@
         <log.dir>${project.basedir}${file.separator}logs</log.dir>
         <report.old.dir>${project.basedir}${file.separator}reportOld</report.old.dir>
         <image.dir>${report.old.dir}</image.dir>
-        <reportNGcss>${project.basedir}${file.separator}config${file.separator}reportStyle.css</reportNGcss>
         <upload.dir>${project.basedir}${file.separator}upload${file.separator}</upload.dir>
         <suite.dir>${config.dir}${file.separator}testNG${file.separator}</suite.dir>
         <base.url>https://beta.unomy.com/</base.url>
 
+        <hub/>
         <browser>firefox</browser>
 
         <!--Default suites-->
@@ -130,6 +130,7 @@
                         <basedir>${project.basedir}</basedir>
                         <browser>${browser}</browser>
                         <base.url>${base.url}</base.url>
+                        <hub>${hub}</hub>
                     </systemPropertyVariables>
                     <properties>
                         <property>

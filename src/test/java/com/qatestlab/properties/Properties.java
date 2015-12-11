@@ -1,16 +1,27 @@
 package com.qatestlab.properties;
 
 import org.apache.commons.lang3.SystemUtils;
+import org.openqa.selenium.remote.BrowserType;
 
 import java.nio.file.Paths;
 
 public class Properties {
 
-    public static BrowserTypes getBrowser() {
-        try {
-            return BrowserTypes.valueOf(System.getProperty(PropertiesNames.BROWSER.toString()).toUpperCase());
-        } catch (Exception e) {
-            return BrowserTypes.CHROME;
+    public static String getBrowser() {
+        String name = System.getProperty(PropertiesNames.BROWSER.toString());
+
+        if (name == null)
+            return BrowserType.FIREFOX;
+
+        switch (name) {
+            case BrowserType.SAFARI:
+                return BrowserType.SAFARI;
+            case BrowserType.IE:
+                return BrowserType.IE;
+            case BrowserType.CHROME:
+                return BrowserType.CHROME;
+            default:
+                return BrowserType.FIREFOX;
         }
     }
 
@@ -50,6 +61,14 @@ public class Properties {
 
     public static String getConfigDir() {
         return System.getProperty(PropertiesNames.CONFIG_DIR.toString());
+    }
+
+    public static String getHubUrl() {
+        return System.getProperty(PropertiesNames.HUB.toString());
+    }
+
+    public static String getPlatform() {
+        return System.getProperty(PropertiesNames.PLATFORM.toString());
     }
 
 }

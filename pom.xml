@@ -10,6 +10,9 @@
     <packaging>jar</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <src.dir>${project.basedir}</src.dir>
         <config.dir>${project.basedir}${file.separator}config</config.dir>
         <build.dir>${project.basedir}${file.separator}build</build.dir>

@@ -14,13 +14,13 @@ To run the tests you need to download and install Maven 3.1.1 or higher https://
 
 ## Examples ##
 
-To run tests:
-```
- mvn install
-```
 To clean generated content: 
 ```
 mvn clean
+```
+To run tests:
+```
+ mvn install
 ```
 To generate allure report: 
 ```

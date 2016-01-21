@@ -4,7 +4,7 @@ This is an automation demo project to demonstrate opportunities of maven and all
 
 ## Environment configuration ##
 
-To run the tests you need to download and install Maven 3.1.1 or higher https://maven.apache.org/download.cgi and setup your IDE to use it instead of bundled version (for IDEA: Settings -> Build -> Build Tools -> Maven )
+To run the tests you need to download and install Maven 3.1.1 or higher [Maven](https://maven.apache.org/download.cgi) and setup your IDE to use it instead of bundled version (for IDEA: Settings -> Build -> Build Tools -> Maven )
 
 ## How to use ##
 

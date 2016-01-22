@@ -26,19 +26,30 @@ To generate allure report:
 ```
 mvn site
 ```
-To zip report:
-```
-mvn assembly:single 
-```
-Send zip report to email:
-```
-mvn postman:send-mail
-```
-Or u can run them alltogether: 
-```
-mvn clean install site assembly:single postman:send-mail
+
+To run the tests using desktop browser locally and generate report:
+
 ```
 
+mvn clean install site -Dbrowser=chrome
+
+```
+
+or
+
+```
+
+mvn clean install site -Dbrowser=firefox
+
+```
+
+or
+
+```
+
+mvn clean install site -Dbrowser=internet explorer
+
+```
 ## Troubleshooting: ##
 
 Error: 

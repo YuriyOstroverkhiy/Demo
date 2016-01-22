@@ -20,27 +20,23 @@ mvn clean
 ```
 To run tests:
 ```
- mvn install
+mvn install
 ```
 To generate allure report: 
 ```
 mvn site
 ```
-
-To run the tests using desktop browser locally and generate report:
-
+To zip report:
 ```
-
-mvn clean install site -Dbrowser=chrome
-
+mvn assembly:single 
 ```
-
-or
-
+Send zip report to email:
 ```
-
-mvn clean install site -Dbrowser=firefox
-
+mvn postman:send-mail
+```
+Or u can run them alltogether: 
+```
+mvn clean install site assembly:single postman:send-mail
 ```
 
 

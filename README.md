@@ -43,13 +43,7 @@ mvn clean install site -Dbrowser=firefox
 
 ```
 
-or
 
-```
-
-mvn clean install site -Dbrowser=internet explorer
-
-```
 ## Troubleshooting: ##
 
 Error: 

@@ -29,6 +29,7 @@
         <suite.dir>${config.dir}${file.separator}testNG${file.separator}</suite.dir>
         <base.url>https://beta.unomy.com/</base.url>
 
+        <!--<hub>http://10.1.0.217:4444/wd/hub</hub>-->
         <hub/>
         <browser>firefox</browser>
 
@@ -235,10 +236,10 @@
                     <mailpassword>test123</mailpassword>
                     <from>test@web100.com.ua</from>
                     <receivers>
-                        <receiver>evgeniy.voloshyn@qatestlab.com</receiver>
+                        <receiver>Your email here!!!!</receiver>
                     </receivers>
 
-                    <subject>Testing result of DataTIle</subject>
+                    <subject>Testing results</subject>
                     <failonerror>true</failonerror>
                     <htmlMessage>
                         <![CDATA[
